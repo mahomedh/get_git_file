@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version=1.0.0
+version=1.0.1
 
 usage=$(cat <<-EOF
 
@@ -87,6 +87,55 @@ fi
 # Need to know what file name to save to
 if [ -z "$output_file" ]; then
     output_file=$(basename "$git_file")
+fi
+
+dirname() {
+    # Usage: dirname "path"
+    local tmp=${1:-.}
+
+    [[ $tmp != *[!/]* ]] && {
+        printf '/\n'
+        return
+    }
+
+    tmp=${tmp%%"${tmp##*[!/]}"}
+
+    [[ $tmp != */* ]] && {
+        printf '.\n'
+        return
+    }
+
+    tmp=${tmp%/*}
+    tmp=${tmp%%"${tmp##*[!/]}"}
+
+    printf '%s\n' "${tmp:-/}"
+}
+
+output_length=${#output_file}
+last_char=${output_file:output_length-1:1}
+
+if [ -d "$output_file" ]; then
+    # Add trailing if needed
+    [[ $last_char != "/" ]] && output_file="$output_file/"; :
+
+    output_file="${output_file}$(basename "$git_file")"
+elif [[ $last_char = "/" ]]; then
+	echo "You appear to have specified an output directory that does not exist."
+	echo "Check your output path/file or create the directory first."
+	echo ""
+	exit
+fi
+
+# Check the directory path is valid if it contains a "/"
+if [[ $output_file == */* ]]; then
+	output_dir=$(dirname "$output_file")
+
+	if [ ! -d "$output_dir" ]; then
+		echo "Output directory $output_dir is not valid. Check and try again."
+		echo ""
+		exit
+	fi
+	
 fi
 
 git_file=$(urlencode "$git_file")
