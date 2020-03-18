@@ -116,7 +116,7 @@ if [ -d "$output_file" ]; then
     [[ "${output_file}" != */ ]] && output_file="${output_file}/"; :
 
     output_file="${output_file}$(basename "$git_file")"
-    
+
 elif [[ $output_file == */ ]]; then
     echo "You appear to have specified an output directory that does not exist."
     echo "Check your output path/file or create the directory first."
@@ -133,7 +133,7 @@ if [[ $output_file == */* ]]; then
         echo ""
         exit
     fi
-    
+
 fi
 
 git_file=$(urlencode "$git_file")
