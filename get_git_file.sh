@@ -130,7 +130,7 @@ do
 done
 
 if [ -z "$git_file" ]; then
-    echo "The Git File path to download is required. Specify it with '-g' or '--git-file'"
+    echo "The Git File path to download is required. Specify it with '-f' or '--git-file'"
     echo "Use the 'Copy Path' button in the GitHub GUI to get the correct path when looking at the file"
     exit
 fi
