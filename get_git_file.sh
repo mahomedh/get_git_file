@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version=1.0.2
+version=1.0.3
 
 usage=$(cat <<-EOF
 
@@ -158,20 +158,12 @@ printf "\nFinished\n"
 while [ $# -ge 1 ]
 do
     case "$1" in
-        -f | --git-file)    shift
-                            git_file=$1
-                            ;;
-        -o | --output)      shift
-                            output_file=$1
-                            ;;
-        -r | --repo)      shift
-                            file_repo=$1
-                            ;;
-        -w | --owner)      shift
-                            file_owner=$1
-                            ;;
-        --version)       echo "$0 version: $version"; exit;;
-        -*)              echo "$usage"; exit;;
+        -f | --git-file)    git_file=$2;;
+        -o | --output)      output_file=$2;;
+        -r | --repo)        file_repo=$2;;
+        -w | --owner)       file_owner=$2;;
+        --version)          echo "$0 version: $version"; exit;;
+        -*)                 echo "$usage"; exit;;
     esac
     shift
 done
